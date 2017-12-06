@@ -1,0 +1,77 @@
+Bundle Up
+Bundler is smarter than you think
+
+Aidan Coyle
+Supporting Services
+acoyle@enova.com
+
+* What Is Bundler?
+
+The thing we use to run all our ruby code?
+
+The thing that manages gems?
+
+* What Is Bundler Really?
+
+Two main things bundler manages:
+
+- Dependency resolution
+- Load path management
+
+* Gemfile Format
+
+How do we tell bundler what we want?
+
+  gem 'nokogiri'       # any version is fine
+  gem 'rails', '5.0.0' # this exact version
+  gem 'rack',  '>=1.0' # 1.0 and up, also supports: >,<,<=
+  gem 'thin',  '~>1.1' # "pessimistic" constraint, equivalent to >= 1.1 and < 2
+
+* Dependency Resolution
+
+We need to find a single set of gems that satisfy the constraints of the Gemfile.
+
+Doing so is actually NP complete.
+
+.link https://research.swtch.com/version-sat discussion by russ cox
+
+* Gemfile.lock
+
+Output of depedency resolution
+
+  GEM
+    remote: https://rubygems.org/
+    specs:
+      actioncable (5.0.0)            # the actual version we found
+        actionpack (= 5.0.0)         # that dependency's dependencies
+        nio4r (~> 1.2)
+        websocket-driver (~> 0.6.1)
+      actionmailer (5.0.0)
+        actionpack (= 5.0.0)
+        actionview (= 5.0.0)
+        activejob (= 5.0.0)
+        mail (~> 2.5, >= 2.5.4)
+        rails-dom-testing (~> 2.0)
+      # ...
+      # Most things have a lot of dependencies
+
+Contains one version of every gem we're gonna need.
+
+* Load Path
+
+Determines where the app is going to look when you require something.
+
+Bundler ensures that the versions in the Gemfile.lock are the ones in the load path.
+
+Rubygems provides the unerlying implementation.
+
+This is what bundle exec does.
+
+* Moral of the Story
+
+Some usage suggestions
+
+- Make constraints as broad as possible.
+- Use the tool if you just want to update a library version.
+- Gems don't (generally) need a Gemfile.lock.
+- Don't touch Gemfile.lock
